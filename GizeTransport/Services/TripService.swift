@@ -1,0 +1,80 @@
+////
+////  TripService.swift
+////  UberSwiftUI
+////
+////  Created by Stephan Dowless on 9/4/22.
+////
+//
+//import Firebase
+//
+//typealias FirestoreCompletion = (((Error?) -> Void)?)
+//
+//struct TripService {
+//    
+//    // MARK: - Properties
+//    
+//    var trip: Trip?
+//    var user: User?
+//        
+//    // MARK: - Helpers
+//    
+//    private func updateTripState(_ trip: Trip, state: TripState, completion: FirestoreCompletion) {
+//        COLLECTION_RIDES.document(trip.tripId).updateData(["tripState": state.rawValue], completion: completion)
+//    }
+//    
+//    private func deleteTrip(completion: FirestoreCompletion) {
+//        guard let trip = trip else { return }
+//        COLLECTION_RIDES.document(trip.tripId).delete(completion: completion)
+//    }    
+//}
+//
+//// MARK: - Driver API
+//
+//extension TripService {
+//    func addTripObserverForDriver(completion: @escaping (QuerySnapshot?, Error?) -> Void) {
+//        guard let user = user, user.accountType == .driver, let uid = user.id else { return }
+//        
+//        COLLECTION_RIDES.whereField("driverUid", isEqualTo: uid).addSnapshotListener { (snapshot, error) in
+//            // Handle the query snapshot or error
+//            completion(snapshot, error)
+//        }
+//    }
+//    
+//    func acceptTrip(completion: FirestoreCompletion) {
+//        guard let trip = trip else { return }
+//        guard let user = user, user.accountType == .driver else { return }
+//                
+//        COLLECTION_RIDES.document(trip.tripId) .updateData(["tripState": MapViewState.tripAccepted.rawValue], completion: completion)
+//    }
+//    
+//    func rejectTrip(completion: FirestoreCompletion) {
+//        guard let trip = trip else { return }
+//        updateTripState(trip, state: .rejectedByDriver, completion: completion)
+//    }
+//    
+//    func didArriveAtPickupLocation(completion: FirestoreCompletion) {
+//        guard let trip = trip else { return }
+//        updateTripState(trip, state: .driverArrived, completion: completion)
+//    }
+//    
+//    func didArriveAtDropffLocation(completion: FirestoreCompletion) {
+//        guard let trip = trip else { return }
+//        updateTripState(trip, state: .arrivedAtDestination, completion: completion)
+//    }
+//    
+//    func pickupPassenger(completion: FirestoreCompletion) {
+//        guard let trip = trip else { return }
+//        updateTripState(trip, state: .inProgress, completion: completion)
+//    }
+//    
+//    func dropoffPassenger(completion: FirestoreCompletion) {
+//        guard let trip = trip else { return }
+//        updateTripState(trip, state: .complete, completion: completion)
+//    }
+//}
+//
+//// MARK: - Passenger API
+//
+//extension TripService {
+//    //TODO: Refactor passenger api code from HomeViewModel to here
+//}

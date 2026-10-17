@@ -1,0 +1,21 @@
+//
+//  manualTrip.swift
+//  GizeDriver
+//
+//  Created by User on 4/14/24.
+//
+
+import MapKit
+
+class SearchCompleterDelegate: NSObject, MKLocalSearchCompleterDelegate {
+    var updateHandler: (([MKLocalSearchCompletion]) -> Void)?
+    var errorHandler: ((Error) -> Void)?
+    
+    func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
+        updateHandler?(completer.results)
+    }
+    
+    func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
+        errorHandler?(error)
+    }
+}

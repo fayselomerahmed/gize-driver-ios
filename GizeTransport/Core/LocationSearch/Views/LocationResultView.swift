@@ -1,0 +1,37 @@
+//
+//  LocationResultView.swift
+//  GizeDriver
+//
+//  Created by User on 10/7/23.
+//
+import SwiftUI
+
+enum LocationResultsViewConfig {
+    case ride
+    case savedLocations(SavedLocationOptions)
+}
+
+struct LocationResultsView: View {
+    let config: LocationResultsViewConfig
+    
+    @EnvironmentObject var viewModel: LocationSearchViewModel
+    @Binding var show: Bool
+    
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 0) {
+                ForEach(viewModel.searchResults, id: \.self) { result in
+                    LocationSearchResultCell(title: result.title, subtitle: result.subtitle)
+                        .onTapGesture {
+                            withAnimation(.spring()) {
+                                self.viewModel.selectLocation(location: result, forConfig: config)
+                                self.show.toggle()
+                            }
+                        }
+                }
+            }
+        }
+        .background(Color.theme.backgroundColor)
+        .frame(width: UIScreen.main.bounds.width)
+    }
+}
